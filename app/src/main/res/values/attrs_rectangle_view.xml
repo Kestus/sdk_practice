@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="RectangleView">
+        <attr name="borderWidth" format="dimension" />
+        <attr name="fillStep" format="float" />
+    </declare-styleable>
+</resources>
