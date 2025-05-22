@@ -2,7 +2,7 @@ package ru.kestus.sdk_practice.task1
 
 import androidx.fragment.app.FragmentManager
 
-class FragmentRouter(
+class Router(
     private val fragmentManager: FragmentManager,
     private val fragmentContainer: Int,
 ) {

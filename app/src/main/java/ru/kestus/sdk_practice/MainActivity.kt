@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.work.WorkManager
-import ru.kestus.sdk_practice.task1.FragmentRouter
+import ru.kestus.sdk_practice.task1.Router
 import ru.kestus.sdk_practice.task1.RouterActivity
 import ru.kestus.sdk_practice.task1.Screens
 import ru.kestus.sdk_practice.task2.ChargingStatusWorker
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(), RouterActivity {
     private val workManager by lazy { WorkManager.getInstance(application) }
 
     override val router by lazy {
-        FragmentRouter(
+        Router(
             supportFragmentManager,
             R.id.fragment_container
         )
