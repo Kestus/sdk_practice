@@ -1,20 +1,20 @@
 package ru.kestus.sdk_practice.task1.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import ru.kestus.sdk_practice.MainActivity
+import androidx.fragment.app.Fragment
 import ru.kestus.sdk_practice.R
+import ru.kestus.sdk_practice.task1.RouterActivity
 import ru.kestus.sdk_practice.task1.Screens
 
 
 class ThirdFragment : Fragment() {
 
     private val router by lazy {
-        (requireContext() as MainActivity).router
+        (requireContext() as RouterActivity).router
     }
 
     private lateinit var buttonNext: Button
