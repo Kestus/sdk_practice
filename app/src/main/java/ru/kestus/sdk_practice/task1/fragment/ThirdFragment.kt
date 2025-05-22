@@ -5,17 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.Fragment
 import ru.kestus.sdk_practice.R
-import ru.kestus.sdk_practice.task1.RouterActivity
+import ru.kestus.sdk_practice.task1.RouterFragment
 import ru.kestus.sdk_practice.task1.Screens
 
 
-class ThirdFragment : Fragment() {
-
-    private val router by lazy {
-        (requireContext() as RouterActivity).router
-    }
+class ThirdFragment : RouterFragment() {
 
     private lateinit var buttonNext: Button
     private lateinit var buttonPrevious: Button
