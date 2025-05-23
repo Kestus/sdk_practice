@@ -10,21 +10,32 @@ import android.view.View
 import ru.kestus.sdk_practice.R
 import kotlin.random.Random
 
+private const val DEFAULT_FILL_STEP = 10f
+private const val DEFAULT_BORDER_WIDTH = 16f
+private const val START_FILL_STATE = 0f
+private const val MAX_FILL_STATE = 100f
+private const val COLOR_RANGE_START = 0
+private const val COLOR_RANGE_END = 256
 
 class RectangleView : View {
 
-    private var borderWidth: Float? = null
+    private var _borderWidth: Float? = null
+        set(value) {
+            borderPaint.strokeWidth = value ?: DEFAULT_BORDER_WIDTH
+            field = value
+        }
+    private val borderWidth
+        get() = _borderWidth ?: DEFAULT_BORDER_WIDTH
+    private var _fillStep: Float? = null
+    private val fillStep
+        get() = _fillStep ?: DEFAULT_BORDER_WIDTH
+    private var currentFillState: Float = START_FILL_STATE
 
-    private val defStep: Float = 10f
-    private var fillStep: Float = defStep
-
-    private var fillState: Float = 0f
     private val paint = Paint()
-
     private val borderPaint = Paint().apply {
         color = Color.LTGRAY
         style = Paint.Style.STROKE
-        strokeWidth = 16f
+        strokeWidth = borderWidth
     }
 
     constructor(context: Context) : super(context)
@@ -45,22 +56,25 @@ class RectangleView : View {
         val a = context.obtainStyledAttributes(
             attrs, R.styleable.RectangleView, defStyle, 0
         )
-        borderWidth = a.getDimension(
+        _borderWidth = a.getDimension(
             R.styleable.RectangleView_borderWidth,
-            0f
+            DEFAULT_BORDER_WIDTH
         )
-        fillStep = a.getFloat(
+        _fillStep = a.getFloat(
             R.styleable.RectangleView_fillStep,
-            defStep
+            DEFAULT_FILL_STEP
         )
         a.recycle()
     }
 
     override fun onDraw(canvas: Canvas) {
         // draw background
+        val fillFraction = currentFillState / MAX_FILL_STATE
+        val fillAmount = height * fillFraction
+        val fillHeight = height - fillAmount
         canvas.drawRect(
             0f,
-            height - (height * (fillState / 100)),
+            fillHeight,
             width.toFloat(),
             height.toFloat(),
             getPaintRandomColor()
@@ -70,9 +84,9 @@ class RectangleView : View {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val newState = fillState + fillStep
-        fillState =
-            if (fillState >= 100f) 0f
+        val newState = currentFillState + fillStep
+        currentFillState =
+            if (currentFillState >= MAX_FILL_STATE) 0f
             else newState
         invalidate()
         return super.onTouchEvent(event)
@@ -80,9 +94,9 @@ class RectangleView : View {
 
     private fun getPaintRandomColor() = paint.apply {
         color = Color.rgb(
-            Random.nextInt(0, 256),
-            Random.nextInt(0, 256),
-            Random.nextInt(0, 256)
+            Random.nextInt(COLOR_RANGE_START, COLOR_RANGE_END),
+            Random.nextInt(COLOR_RANGE_START, COLOR_RANGE_END),
+            Random.nextInt(COLOR_RANGE_START, COLOR_RANGE_END)
         )
     }
 }
